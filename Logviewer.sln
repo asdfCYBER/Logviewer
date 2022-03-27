@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31129.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logviewer", "Logviewer\Logviewer.csproj", "{67FB26C5-EE24-4136-A17E-E0EB2A611F87}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logviewer.Unity", "Logviewer.Unity\Logviewer.Unity.csproj", "{97C2C4BD-2CDF-4EF5-9FD8-7845641DCA46}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{67FB26C5-EE24-4136-A17E-E0EB2A611F87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67FB26C5-EE24-4136-A17E-E0EB2A611F87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67FB26C5-EE24-4136-A17E-E0EB2A611F87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67FB26C5-EE24-4136-A17E-E0EB2A611F87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97C2C4BD-2CDF-4EF5-9FD8-7845641DCA46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97C2C4BD-2CDF-4EF5-9FD8-7845641DCA46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97C2C4BD-2CDF-4EF5-9FD8-7845641DCA46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97C2C4BD-2CDF-4EF5-9FD8-7845641DCA46}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FEB28E26-AEB3-45A6-916A-CE73EF80A4FA}
+	EndGlobalSection
+EndGlobal
