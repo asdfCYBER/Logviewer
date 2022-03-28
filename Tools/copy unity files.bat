@@ -1,0 +1,1 @@
+robocopy "%userprofile%\Documents\Heatmap UI\Logviewer UI\Assets" "%userprofile%\source\repos\Logviewer\Assets" /E /XD "TextMesh Pro"
