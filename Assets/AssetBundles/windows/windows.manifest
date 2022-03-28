@@ -1,0 +1,7 @@
+ManifestFileVersion: 0
+CRC: 3240910189
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: logvieweruiassets
+      Dependencies: {}
