@@ -50,8 +50,15 @@ namespace Logviewer.IO
         /// <summary>
         /// Write <paramref name="contents"/> to a file located at <paramref name="path"/>
         /// <returns>Whether or not writing was successful</returns>
-        public static bool TrySaveToFile(string path, string contents)
+        public static bool TrySaveToFile(string filename, string contents)
         {
+            string directory = GetSavesDirectory();
+            if (!Directory.Exists(directory))
+                if (!TryCreateDirectory(directory))
+                    return false;
+
+            string path = Path.Combine(directory, filename);
+
             try
             {
                 File.WriteAllText(path, contents);

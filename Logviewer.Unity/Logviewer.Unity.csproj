@@ -66,7 +66,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>echo F|xcopy $(TargetPath) "%25APPDATA%25/../LocalLow/bitrich/Rail Route/mods/Logviewer/$(TargetFileName)" /y
+    <PostBuildEvent>echo F|xcopy $(TargetPath) "%25APPDATA%25/../LocalLow/bitrich/Rail Route/mods/000_Logviewer/$(TargetFileName)" /y
 echo F|xcopy $(TargetPath) "%25USERPROFILE%25/Documents/Heatmap UI/Logviewer UI/Assets/Plugins/$(TargetFileName)" /y</PostBuildEvent>
   </PropertyGroup>
 </Project>

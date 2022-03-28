@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using UnityEngine;
-
 
 namespace Logviewer
 {
@@ -37,11 +33,16 @@ namespace Logviewer
                 Timestamp = DateTime.Now.TimeOfDay;
         }
 
-        public bool Contains(string subset) => Message.Contains(subset);
+        /// <summary>
+        /// Whether the pattern matches <see cref="Message"/>
+        /// </summary>
+        /// <param name="pattern">The regex expression that should be matched</param>
+        /// <returns></returns>
+        public bool MatchesRegex(string pattern) => Regex.IsMatch(Message, pattern);
 
         public override string ToString()
         {
-            if (Type == LogType.Log) // most likely
+            if (Type == LogType.Log) // same as default, but log is the most likely type so it goes first
                 return $"[{Timestamp:hh\\:mm\\:ss\\.fff}] {Message}";
             else if (Type == LogType.Warning)
                 return $"<color=yellow>[{Timestamp:hh\\:mm\\:ss\\.fff}] {Message}</color>";
@@ -51,13 +52,15 @@ namespace Logviewer
                 return $"[{Timestamp:hh\\:mm\\:ss\\.fff}] {Message}";
         }
 
+        /// <summary>
+        /// If there is no filter return true, else return whether or not the message is matched
+        /// </summary>
         public bool MatchFilter(string filter)
         {
             if (string.IsNullOrEmpty(filter))
                 return true;
 
-            // todo: regex
-            return Contains(filter);
+            return MatchesRegex(filter);
         }
     }
 }

@@ -44,7 +44,7 @@ namespace Logviewer.Unity
         {
             // unityaction -> normal action
             Filter.onSubmit.AddListener(delegate (string filter) { onFilterSubmit(filter); });
-            //Save.onClick.AddListener(delegate { onSave(); });
+            Save.onClick.AddListener(delegate { onSave(); });
         }
 
         /// <summary>

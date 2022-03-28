@@ -87,7 +87,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>echo F|xcopy $(TargetPath) "%25APPDATA%25/../LocalLow/bitrich/Rail Route/mods/Logviewer/$(TargetFileName)" /y
+    <PostBuildEvent>echo F|xcopy $(TargetPath) "%25APPDATA%25/../LocalLow/bitrich/Rail Route/mods/000_Logviewer/$(TargetFileName)" /y
 start steam://rungameid/1124180</PostBuildEvent>
   </PropertyGroup>
 </Project>

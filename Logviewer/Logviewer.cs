@@ -25,8 +25,6 @@ namespace Logviewer
 
         public List<Log> Logs { get; } = new List<Log>();
 
-        public List<Log> FilteredLogs { get; private set; } = new List<Log>();
-
         private string _filter;
 
         private IControllers _controllers;
@@ -46,8 +44,6 @@ namespace Logviewer
             _openPanelAction = new InputAction("Open Logviewer", binding: "<Keyboard>/f3");
             _openPanelAction.performed += ToggleWindow;
             _openPanelAction.Enable();
-
-
 
             await Task.Yield();
         }
@@ -73,24 +69,49 @@ namespace Logviewer
             await Task.Yield();
         }
 
+        /// <summary>
+        /// Add a message to the list of logs and show it on the panel if possible
+        /// </summary>
+        /// <param name="message">The received message</param>
+        /// <param name="stacktrace">Stacktrace if the message is an exception</param>
+        /// <param name="type">Type of the message (log, warning, etc.)</param>
         public void MessageReceived(string message, string stacktrace, LogType type)
         {
             Log log = new Log(message, type);
             Logs.Add(log);
-            if (log.MatchFilter(_filter))
-                FilteredLogs.Add(log);
 
-            if (_logWindow?.LogView?.content == null || !log.MatchFilter(_filter)) return;
-            _logWindow.AddLog(log.ToString());
+            if (log.MatchFilter(_filter) && _logWindow?.LogView?.content != null)
+                _logWindow.AddLog(log.ToString());
         }
 
-        public void ShowLogs(List<Log> logs)
+        /// <summary>
+        /// Clear the screen and show the logs
+        /// </summary>
+        /// <param name="logs"></param>
+        public void ShowLogs()
         {
+            List<Log> logs = FilterLogs();
+
             _logWindow.Clear();
             foreach (Log log in logs)
                 _logWindow.AddLog(log.ToString());
         }
 
+        public void SaveLogs()
+        {
+            string filename = DateTime.Now.ToString("yyyy-MM-dd HH.mm.ss") + ".log";
+            IO.Utils.TrySaveToFile($"{filename}", string.Join("\n", FilterLogs()));
+            Debug.Log($"Saved logs as {filename}");
+        }
+
+        private List<Log> FilterLogs()
+        {
+            return Logs.Where(log => log.MatchFilter(_filter)).ToList();
+        }
+
+        /// <summary>
+        /// Return the transform to attach the panel to
+        /// </summary>
         private Transform GetUITransform()
         {
             // find the canvas to attach the panel to
@@ -107,6 +128,9 @@ namespace Logviewer
             }
         }
 
+        /// <summary>
+        /// Instantiate the panel and/or set the panel active
+        /// </summary>
         private void EnableWindow()
         {
             Transform parent = GetUITransform();
@@ -120,21 +144,18 @@ namespace Logviewer
                 GameObject prefab = LogviewerUIAssets.LoadAsset<GameObject>("Logviewer panel");
                 _panel = GameObject.Instantiate(prefab, parent, worldPositionStays: false);
                 _panel.transform.localScale = new Vector3(2, 2, 2); // don't ask me, this works
-                _panel.GetComponent<RectTransform>().anchoredPosition = new Vector2(400, -400);
                 _logWindow = _panel.GetComponent<LogWindowManager>();
-                _logWindow.AddExternalListeners(delegate { _filter = _logWindow.Filter.text; ShowLogs(FilterLogs()); }, delegate { });
+                _logWindow.AddExternalListeners(delegate { _filter = _logWindow.Filter.text; ShowLogs(); }, SaveLogs);
             }
 
             _panel.SetActive(true);
-
-            if (string.IsNullOrEmpty(_filter))
-                ShowLogs(Logs);
-            else
-            {
-                ShowLogs(FilterLogs());
-            }
+            ShowLogs();
         }
 
+        /// <summary>
+        /// Toggle whether or not the panel is active
+        /// </summary>
+        /// <param name="context"></param>
         public void ToggleWindow(InputAction.CallbackContext context)
         {
             if (_panel != null)
@@ -143,11 +164,9 @@ namespace Logviewer
                 EnableWindow();
         }
 
-        public List<Log> FilterLogs()
-        {
-            return Logs.Where(log => log.MatchFilter(_filter)).ToList();
-        }
-
+        /// <summary>
+        /// Load the LogviewerUIassets assetbundle
+        /// </summary>
         private static AssetBundle LoadAssets()
         {
             // Load assets from file

@@ -18,8 +18,9 @@ namespace Logviewer.Unity
             // Move gameobject the same amount as the mouse moved
             _panelTransform.position += new Vector3(data.delta.x, data.delta.y, 0);
 
-            // If the gameobject is now beyond one of the four edges of the screen, move it back by the amount it is beyond the edge
-            // Note: I think this assumes a certain pivot, but it works with the Rail Route UI canvasses
+            // If the gameobject is now beyond one of the four edges of the screen, move it back by the
+            // amount it is beyond the edge. Note: I think this assumes a certain pivot, but it works
+            // with the Rail Route UI canvasses
             Vector2 lowerLeft = new Vector2(
                 _panelTransform.position.x + _panelTransform.rect.x,
                 _panelTransform.position.y + _panelTransform.rect.y
