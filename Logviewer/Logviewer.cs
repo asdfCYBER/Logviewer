@@ -77,6 +77,9 @@ namespace Logviewer
         /// <param name="type">Type of the message (log, warning, etc.)</param>
         public void MessageReceived(string message, string stacktrace, LogType type)
         {
+            if (!string.IsNullOrWhiteSpace(stacktrace))
+                message += "\n" + stacktrace;
+
             Log log = new Log(message, type);
             Logs.Add(log);
 
@@ -114,17 +117,17 @@ namespace Logviewer
         /// </summary>
         private Transform GetUITransform()
         {
-            // find the canvas to attach the panel to
-            Transform uiTransform;
-            if (_controllers.CurrentMode == GameMode.Menu)
+            // Find the canvas to attach the panel to
+            switch (_controllers.CurrentMode)
             {
-                // if this method ever throws nullrefs it's probably this line
-                return uiTransform = SceneManager.GetActiveScene().GetRootGameObjects()
-                    .First(obj => obj.name == "Menu").transform.Find("UI");
-            }
-            else // editor or play
-            {
-                return _controllers.GameControllers.UiCanvas.gameObject.transform;
+                case GameMode.Menu:
+                    return _controllers.MenuController.UICanvasScaler.transform;
+                case GameMode.Play:
+                    return _controllers.GameControllers.UiCanvas.transform;
+                case GameMode.Editor:
+                    return _controllers.EditorController.UiCanvasScaler.transform;
+                default:
+                    return null;
             }
         }
 
